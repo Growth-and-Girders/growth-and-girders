@@ -9,7 +9,31 @@ const Dashboard = () => {
   let navigate = useNavigate() ;
   const [tokenURI, setTokenURI] = useState("https://bronze-favourite-peafowl-457.mypinata.cloud/ipfs/QmNu5HgLhiLjmQ5PMf1Ypj7wyPxBc8XhNJf3MwCXqxK6RF?_gl=1*1314osz*_ga*MzQ3MzczNjUzLjE2OTk3MTkwMDg.*_ga_5RMPXG14TE*MTY5OTcxOTAwNy4xLjEuMTY5OTcxOTE2MC42MC4wLjA.");
 
-  
+  const mintNFT = async () => {
+    if (window.ethereum) {
+      try {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        const signer = provider.getSigner();
+
+        const contractAddress = "0x1aaf989c5180391f9f0105af55Aa24873E6F2378";
+        const contractABI = abi; // Your contract ABI here
+        const nftContract = new ethers.Contract(contractAddress, contractABI, signer);
+
+        // Minting with tokenURI parameter
+        const tx = await nftContract.mint(tokenURI);
+
+        console.log("Minting...", tx.hash);
+        await tx.wait();
+        console.log("Minted -- Transaction Hash:", tx.hash);
+      } catch (error) {
+        console.error("Error minting NFT:", error);
+      }
+    } else {
+      console.log("Ethereum object not found, install MetaMask.");
+    }
+  };
+
   return (
     <>
       <section class="text-gray-600 body-font">
