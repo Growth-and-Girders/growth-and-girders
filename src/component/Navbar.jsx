@@ -7,7 +7,51 @@ import { Link } from 'react-router-dom';
 
 
 const Navbar = () => {
+  const [isConnected, setIsConnected] = useState(false);
+  const [walletAddress, setWalletAddress] = useState("");
   
+  // Function to connect the wallet
+  const connectWallet = async () => {
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      await provider.send("eth_requestAccounts", []);
+      // await window.ethereum.enable(); // Request user permission
+      const signer = provider.getSigner();
+      const address = await signer.getAddress();
+
+      setIsConnected(true); // Update state to indicate wallet is connected
+      setWalletAddress(address); // Store the wallet address in state
+    } catch (error) {
+      console.error('Error connecting wallet:', error);
+    }
+  };
+
+  // Function to disconnect the wallet
+  const disconnectWallet = () => {
+    if (typeof window.ethereum !== 'undefined') {
+      window.ethereum
+        .send('eth_requestAccounts')
+        .then((result) => {
+          if (result && result.length > 0) {
+            setIsConnected(false);
+            setWalletAddress("");
+          }
+        })
+        .catch((error) => {
+          console.error('Error disconnecting wallet:', error);
+        });
+    }
+  };
+
+  useEffect(() => {
+    // Check if MetaMask is installed and set initial wallet state
+    if (typeof window.ethereum !== 'undefined') {
+      setIsConnected(window.ethereum.selectedAddress !== null);
+      if (window.ethereum.selectedAddress) {
+        setWalletAddress(window.ethereum.selectedAddress);
+      }
+    }
+  }, []);
 
   return (
     <nav className="#1B1D09">
