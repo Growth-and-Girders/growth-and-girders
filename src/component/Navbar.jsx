@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import treejer from "../Assets/treejer.png";
-import { Link } from 'react-router-dom';
+import Logo from "../Assets/Logo.png";
+import { Link,useNavigate } from 'react-router-dom';
 // import { ethers } from "ethers";
  const { ethers } = require("ethers");
 
@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 const Navbar = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [walletAddress, setWalletAddress] = useState("");
+  let navigate = useNavigate() ;
   
   // Function to connect the wallet
   const connectWallet = async () => {
@@ -61,10 +62,12 @@ const Navbar = () => {
             {/* Mobile menu button */}
             {/* ... */}
           </div>
-          <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-            <div className="flex flex-shrink-0 items-center">
+          <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start" >
+            <div className="flex flex-shrink-0 items-center"  onClick={() => {
+          navigate("/");
+        }}>
               <img
-                src={treejer}
+                src={Logo}
                 alt=""
               />
             </div>
@@ -110,7 +113,7 @@ const Navbar = () => {
             <div>
               <button
                 type="button"
-                className="bg-blue-500 text-white rounded-md px-3 py-2 text-sm font-medium ml-4"
+                className="bg-blue-500 hover:bg-blue-900 text-white rounded-md px-3 py-2 text-sm font-medium ml-4"
                 style={{ marginTop: "15px" }}
                 onClick={disconnectWallet}
               >
