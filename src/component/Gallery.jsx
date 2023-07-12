@@ -9,10 +9,10 @@ const Gallery = () => {
 
 <div class="flex justify-center mt-14">
           <button class="inline-flex text-white bg-green-900 border-0 py-2 px-10 focus:outline-none hover:bg- rounded-lg text-lg transition-all duration-300">
-            Button
+          Collect
           </button>
           <button class="inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-10 focus:outline-none hover:bg-gray-400 rounded-lg text-lg">
-            Button
+          Gallery
           </button>
         </div>
 
